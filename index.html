@@ -20,25 +20,22 @@
     loadingTask.promise.then(function(pdf) {
       const pdfContainer = document.getElementById("pdf-container");
       const numPages = Math.min(3, pdf.numPages); // Display a maximum of 3 pages
-      const scale = 2; // Increase the scale factor for higher quality rendering
 
       for (let pageNum = 1; pageNum <= numPages; pageNum++) {
         pdf.getPage(pageNum).then(function(page) {
-          const viewport = page.getViewport({ scale });
           const canvas = document.createElement("canvas");
           const context = canvas.getContext("2d");
+          const viewport = page.getViewport({ scale: 1.0 });
 
           canvas.height = viewport.height;
           canvas.width = viewport.width;
 
-          const renderContext = {
+          page.render({
             canvasContext: context,
             viewport: viewport
-          };
-
-          page.render(renderContext).promise.then(function() {
-            pdfContainer.appendChild(canvas);
           });
+
+          pdfContainer.appendChild(canvas);
         });
       }
     });
