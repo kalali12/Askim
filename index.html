@@ -1,11 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ASHKEM MENU</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ASHKEM MENU</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
 </head>
 <body>
-    <embed src="1BBQ.pdf#page=1-3" type="application/pdf" width="100%" height="800px" />
+  <div id="pdf-container"></div>
+
+  <script>
+    // Specify the URL of the PDF file
+    const pdfUrl = "1BBQ.pdf";
+
+    // Fetch the PDF file
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
+
+    // Render the PDF pages
+    loadingTask.promise.then(function(pdf) {
+      const pdfContainer = document.getElementById("pdf-container");
+      const numPages = Math.min(3, pdf.numPages); // Display a maximum of 3 pages
+
+      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+        pdf.getPage(pageNum).then(function(page) {
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          const viewport = page.getViewport({ scale: 1.0 });
+
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+
+          page.render({
+            canvasContext: context,
+            viewport: viewport
+          });
+
+          pdfContainer.appendChild(canvas);
+        });
+      }
+    });
+  </script>
 </body>
 </html>
