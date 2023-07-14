@@ -12,7 +12,6 @@
       flex-direction: column;
       align-items: center;
       height: 100vh;
-      overflow-y: scroll;
     }
 
     #image-container {
@@ -24,6 +23,14 @@
 
     .image {
       margin-bottom: 10px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      .image {
+        width: 100%;
+      }
     }
   </style>
 </head>
@@ -33,31 +40,5 @@
     <img class="image" src="1BBQ-2.png" alt="Image 2">
     <img class="image" src="1BBQ-3.png" alt="Image 3">
   </div>
-
-  <script>
-    window.addEventListener('DOMContentLoaded', function() {
-      const images = document.querySelectorAll('.image');
-      let prevScrollY = window.scrollY;
-
-      function checkScroll() {
-        const currentScrollY = window.scrollY;
-        const windowHeight = window.innerHeight;
-
-        if (currentScrollY > prevScrollY) {
-          // Scrolling down
-          images.forEach(function(image) {
-            const imageRect = image.getBoundingClientRect();
-            if (imageRect.bottom < windowHeight) {
-              image.src = image.dataset.src;
-            }
-          });
-        }
-
-        prevScrollY = currentScrollY;
-      }
-
-      window.addEventListener('scroll', checkScroll);
-    });
-  </script>
 </body>
 </html>
