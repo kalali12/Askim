@@ -35,5 +35,31 @@
     <img class="image" src="1BBQ-2.jpg" alt="Image 2">
     <img class="image" src="1BBQ-3.jpg" alt="Image 3">
   </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('.image');
+      let prevScrollY = window.scrollY;
+
+      function checkScroll() {
+        const currentScrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+
+        if (currentScrollY > prevScrollY) {
+          // Scrolling down
+          images.forEach(function(image) {
+            const imageRect = image.getBoundingClientRect();
+            if (imageRect.bottom < windowHeight) {
+              image.src = image.dataset.src;
+            }
+          });
+        }
+
+        prevScrollY = currentScrollY;
+      }
+
+      window.addEventListener('scroll', checkScroll);
+    });
+  </script>
 </body>
 </html>
