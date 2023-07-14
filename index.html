@@ -4,40 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ASHKEM MENU</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
 </head>
 <body>
-  <div id="pdf-container"></div>
-
   <script>
-    // Specify the URL of the PDF file
-    const pdfUrl = "1BBQ.pdf";
+    const imageUrls = ["1BBQ-1.jpg", "1BBQ-2.jpg", "1BBQ-3.jpg"]; // Replace with the actual image file names and extensions
 
-    // Fetch the PDF file
-    const loadingTask = pdfjsLib.getDocument(pdfUrl);
-
-    // Render the PDF pages
-    loadingTask.promise.then(function(pdf) {
-      const pdfContainer = document.getElementById("pdf-container");
-      const numPages = Math.min(3, pdf.numPages); // Display a maximum of 3 pages
-
-      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        pdf.getPage(pageNum).then(function(page) {
-          const canvas = document.createElement("canvas");
-          const context = canvas.getContext("2d");
-          const viewport = page.getViewport({ scale: 1.0 });
-
-          canvas.height = viewport.height;
-          canvas.width = viewport.width;
-
-          page.render({
-            canvasContext: context,
-            viewport: viewport
-          });
-
-          pdfContainer.appendChild(canvas);
-        });
-      }
+    imageUrls.forEach(function(url) {
+      const newWindow = window.open("", "_blank");
+      newWindow.document.write("<html><head><title>ASHKEM MENU</title></head><body><img src='" + url + "'></body></html>");
+      newWindow.document.close();
     });
   </script>
 </body>
